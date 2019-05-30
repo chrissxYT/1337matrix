@@ -1,16 +1,15 @@
-#define SLEEP 100
-
 #include <stdio.h>
 #include <time.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include "config.h"
 
 #if defined(_WIN32) || defined(_WIN64)
-#define WIN 1
 #include <Windows.h>
 #define GREEN() SetConsoleTextAttribute(\
 	GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN)
 #define OS_SLEEP(ms) Sleep(ms)
-inline int width()
+int width()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
@@ -18,12 +17,11 @@ inline int width()
 	return csbi.srWindow.Right - csbi.srWindow.Left;
 }
 #else
-#define WIN 0
 #include <unistd.h>
 #include <sys/ioctl.h>
-#define GREEN() puts("\e[32m")
+#define GREEN() fputs("\e[32m", stdout)
 #define OS_SLEEP(ms) usleep(ms * 1000)
-inline int width()
+int width()
 {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
@@ -31,10 +29,12 @@ inline int width()
 }
 #endif
 
+#define DIE(msg) { puts(msg); return 1; }
+
 int main(int argc, char **argv)
 {
 	char *str = malloc(2000); //buffer
-	if (!str) { puts("WTF, MALLOC FAILS"); return 1; }
+	if (!str) DIE("WTF, MALLOC FAILS");
 	srand(time(0));
 	GREEN();
 	int j;
