@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <time.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include "config.h"
 
@@ -25,19 +24,19 @@
 	j = w.ws_col
 #endif
 
-#define DIE(msg) { puts(msg); return 1; }
+#define assert(condition, msg) if(!condition) { puts(msg); return 1; }
 
 int main(int argc, char **argv)
 {
-	char *str = malloc(2000); //buffer
-	if (!str) DIE("WTF, MALLOC FAILS!?");
+	char str[2000]; //buffer
 	srand(time(0));
 	GREEN();
 	int j;
-	while (1)
+	while(1)
 	{
 		width();
-		for (int i = 0; i < j; i++)
+		assert(j, "width = 0");
+		for(int i = 0; i < j; i++)
 			str[i] = rand() % 10 + 0x30;
 		str[j] = '\0';
 		puts(str);
