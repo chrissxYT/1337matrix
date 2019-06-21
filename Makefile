@@ -7,3 +7,9 @@ test:
 
 clean:
 	@rm -f matrix
+
+install:
+	@cp -f matrix /usr/bin/matrix
+
+uninstall:
+	@rm -f /usr/bin/matrix
