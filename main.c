@@ -28,6 +28,8 @@
 
 int main(int argc, char **argv)
 {
+        long sleep = SLEEP;
+        if(argc > 1) sleep = strtol(argv[1], NULL, 10);
 	srand(time(0));
 	green();
 	while(1)
@@ -36,6 +38,6 @@ int main(int argc, char **argv)
 		assert(j, "width = 0");
 		for(int i = 0; i < j; i++) putchar(rand()%10 | 0x30);
 		putchar('\n');
-		os_sleep(SLEEP);
+		os_sleep(sleep);
 	}
 }

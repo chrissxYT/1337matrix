@@ -1,15 +1,11 @@
 all:
-	@gcc main.c -Ofast -o matrix
-
-test:
-	@gcc main.c -Og -o matrix
-	@./matrix
+	gcc main.c -Ofast -o yamatrix
 
 clean:
-	@rm -f matrix
+	rm -f yamatrix
 
 install:
-	@cp -f matrix /usr/bin/matrix
+	cp -f yamatrix /usr/bin/yamatrix
 
 uninstall:
-	@rm -f /usr/bin/matrix
+	rm -f /usr/bin/yamatrix
