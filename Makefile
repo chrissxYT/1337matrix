@@ -1,5 +1,5 @@
 all:
-	gcc main.c -Ofast -o yamatrix
+	gcc main.c -std=c89 -Ofast -Wall -Wextra -pedantic -o yamatrix
 
 clean:
 	rm -f yamatrix
