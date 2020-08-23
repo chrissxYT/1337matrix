@@ -3,28 +3,32 @@
 #include <stdlib.h>
 #include "config.h"
 
-#if defined(_WIN32) || defined(_WIN64)
+#ifdef _WIN32
 #include <Windows.h>
 #define green() SetConsoleTextAttribute(\
 	GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN)
-#define os_sleep(ms) Sleep(ms)
-#define width() \
+#define ms_sleep(ms) Sleep(ms)
+#define width(output) \
 	CONSOLE_SCREEN_BUFFER_INFO csbi; \
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), \
 		&csbi); \
-	unsigned int j = csbi.srWindow.Right - csbi.srWindow.Left
+	output = csbi.srWindow.Right - csbi.srWindow.Left
+#define WIDTH_TYPE SHORT
 #else
 #include <unistd.h>
+#ifndef usleep
+/* this is a workaround for glibc's unistd.h (it is way too stupid) */
+extern int usleep (__useconds_t);
+#endif
 #include <sys/ioctl.h>
-#define green() fputs("\e[32m", stdout)
-#define os_sleep(ms) usleep(ms * 1000)
-#define width() \
+#define green() fputs("\x1b[32m", stdout)
+#define ms_sleep(ms) usleep(ms * 1000)
+#define width(output) \
 	struct winsize w; \
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); \
-	unsigned short j = w.ws_col
+	output = w.ws_col
+#define WIDTH_TYPE unsigned short
 #endif
-
-#define assert(condition, msg) if(!condition) { puts(msg); return 1; }
 
 int main(int argc, char **argv)
 {
@@ -34,10 +38,11 @@ int main(int argc, char **argv)
 	green();
 	while(1)
 	{
-		width();
-		assert(j, "width = 0");
-		for(int i = 0; i < j; i++) putchar(rand()%10 | 0x30);
+                WIDTH_TYPE i, j;
+		width(j);
+                if(!j) puts("width = 0"), exit(1);
+		for(i = 0; i < j; i++) putchar(rand() % 10 | 0x30);
 		putchar('\n');
-		os_sleep(sleep);
+		ms_sleep(sleep);
 	}
 }
