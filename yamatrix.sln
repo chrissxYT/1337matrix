@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1337matrix", "1337matrix.vcxproj", "{D8AD6429-EB1D-4370-9FB9-842682B5EBDC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yamatrix", "yamatrix.vcxproj", "{D8AD6429-EB1D-4370-9FB9-842682B5EBDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
