@@ -5,7 +5,7 @@ clean:
 	rm -f yamatrix
 
 install:
-	cp -f yamatrix /usr/bin/yamatrix
+	cp -f yamatrix /usr/local/bin/yamatrix
 
 uninstall:
-	rm -f /usr/bin/yamatrix
+	rm -f /usr/local/bin/yamatrix
