@@ -1,5 +1,8 @@
+CC ?= cc
+CFLAGS ?= -std=c89 -Ofast -Wall -Wextra -pedantic
+
 all:
-	gcc main.c -std=c89 -Ofast -Wall -Wextra -pedantic -o yamatrix
+	$(CC) main.c $(CFLAGS) -o yamatrix
 
 clean:
 	rm -f yamatrix
