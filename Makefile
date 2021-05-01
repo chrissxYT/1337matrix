@@ -1,5 +1,5 @@
 CC ?= cc
-CFLAGS ?= -std=c89 -Ofast -Wall -Wextra -pedantic
+CFLAGS ?= -Ofast -Wall -Wextra -pedantic
 
 all:
 	$(CC) main.c $(CFLAGS) -o yamatrix

@@ -12,13 +12,9 @@
         GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), \
                 &csbi); \
         output = csbi.srWindow.Right - csbi.srWindow.Left
-#define width_t SHORT
+typedef SHORT width_t;
 #else
 #include <unistd.h>
-#ifndef usleep
-/* this is a workaround for glibc's unistd.h (it is way too stupid) */
-extern int usleep (__useconds_t);
-#endif
 #include <sys/ioctl.h>
 #define green() fputs("\x1b[32m", stdout)
 #define Sleep(ms) usleep(ms * 1000)
@@ -26,21 +22,19 @@ extern int usleep (__useconds_t);
         struct winsize w; \
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); \
         output = w.ws_col
-#define width_t unsigned short
+typedef unsigned short width_t;
 #endif
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
         long sleep = SLEEP;
         width_t i, j;
         if(argc > 1) sleep = strtol(argv[1], NULL, 10);
         srand(time(0));
         green();
-        while(1)
-        {
+        while(1) {
                 width(j);
                 if(!j) puts("width = 0"), exit(1);
-                for(i = 0; i < j; i++) putchar(rand() % 10 | 0x30);
+                for(i = 0; i < j; i++) putchar('0' + rand() % 10);
                 putchar('\n');
                 Sleep(sleep);
         }
